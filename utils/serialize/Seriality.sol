@@ -1,4 +1,4 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.5.0;
 
 /**
  * @title Seriality
@@ -12,7 +12,4 @@ import "./SizeOf.sol";
 
 contract Seriality is BytesToTypes, TypesToBytes, SizeOf {
 
-    function Seriality() public {
-
-    }
 }
