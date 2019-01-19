@@ -122,7 +122,7 @@ contract RewardPool is ManagerRole, Seriality {
     }
 
     function getApprovedRewards(address beneficiary) public view returns(bytes memory approvedRewards) {
-        return getBytes(rewards);
+        return getBytes(beneficiaries[beneficiary]);
     }
 
     /**
@@ -153,7 +153,7 @@ contract RewardPool is ManagerRole, Seriality {
     * @dev Serialize an array to string.
     * @param arr The array containing all the rewards.
     */
-    function getBytes(Reward[] memory arr) public view returns(bytes memory serialized){
+    function getBytes(uint256[] memory arr) public view returns(bytes memory serialized){
 
         uint startindex = 0;
         uint endindex = arr.length -1;
@@ -163,14 +163,10 @@ contract RewardPool is ManagerRole, Seriality {
         uint offset = 64*((endindex - startindex) + 1);
 
         bytes memory buffer = new  bytes(offset);
-        string memory out1  = new string(32);
-
 
         for(uint i = endindex; i >= startindex; i--){
-            out1 = arr[i];
-
-            stringToBytes(offset, bytes(out1), buffer);
-            offset -= sizeOfString(out1);
+            uintToBytes(offset, arr[i], buffer);
+            offset -= sizeOfUint(256);
         }
 
         return (buffer);
