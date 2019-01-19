@@ -120,6 +120,10 @@ contract RewardPool is ManagerRole {
         return rewards.length;
     }
 
+    function getApprovedRewards(address beneficiary) public view returns(string approvedRewards) {
+        return rewards;
+    }
+
     /**
     * @dev Approves the suggested reward.
     * @param id The id of the reward.
