@@ -40,11 +40,10 @@ contract BytesToTypes {
         }
     }
 
-    function bytesToString(uint _offst, bytes memory _input, bytes memory _output) internal  {
+    function bytesToString(uint _offst, bytes memory _input, bytes memory _output) internal pure {
 
         uint size = 32;
         assembly {
-            let loop_index:= 0
 
             let chunk_count
 
@@ -55,14 +54,10 @@ contract BytesToTypes {
                 chunk_count := add(chunk_count,1)  // chunk_count++
             }
 
-
-            loop:
-            mstore(add(_output,mul(loop_index,32)),mload(add(_input,_offst)))
-            _offst := sub(_offst,32)           // _offst -= 32
-            loop_index := add(loop_index,1)
-
-            jumpi(loop , lt(loop_index , chunk_count))
-
+            for { let index:= 0 }  lt(index , chunk_count){ index := add(index,1) } {
+                mstore(add(_output,mul(index,32)),mload(add(_input,_offst)))
+                _offst := sub(_offst,32)           // _offst -= 32
+            }
         }
     }
 
